@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create User</title>
+</head>
+<body>
+    <h1>Create User</h1>
+    <form method="POST">
+        <div>
+            <label for="username">Username:</label>
+            <input type="text" name="username" id="username" required>
+        </div>
+        <div>
+            <label for="password">Password:</label>
+            <input type="password" name="password" id="password" required>
+        </div>
+        <div>
+            <label for="email">Email:</label>
+            <input type="email" name="email" id="email" required>
+        </div>
+        <div>
+            <label for="role">Role:</label>
+            <select name="role" id="role">
+                <option value="child">Child</option>
+                <option value="parent">Parent</option>
+            </select>
+        </div>
+        <button type="submit">Create User</button>
+    </form>
+</body>
+</html>

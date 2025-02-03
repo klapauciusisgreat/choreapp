@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Assign Chore</title>
+</head>
+<body>
+    <h1>Assign Chore</h1>
+    <form method="POST">
+        <div>
+            <label for="user_id">User:</label>
+            <select name="user_id" id="user_id">
+                {{ range .Users }}
+                <option value="{{ .ID }}">{{ .Username }}</option>
+                {{ end }}
+            </select>
+        </div>
+        <div>
+            <label for="chore_id">Chore:</label>
+            <select name="chore_id" id="chore_id">
+                {{ range .Chores }}
+                <option value="{{ .ID }}">{{ .Name }}</option>
+                {{ end }}
+            </select>
+        </div>
+        <div>
+            <label for="date">Date:</label>
+            <input type="date" name="date" id="date" required>
+        </div>
+        <button type="submit">Assign Chore</button>
+    </form>
+</body>
+</html>

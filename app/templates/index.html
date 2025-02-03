@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Chore Tracker</title>
+    <link rel="stylesheet" href="/static/style.css">
+  </head>
+  <body>
+    <script>
+      var currentUserId = {{ .CurrentUserID }};
+    </script>
+    <h1>Welcome, {{ .User.Username }}!</h1>
+
+    <div class="logout-button">
+      <a href="/logout">Logout</a>
+    </div>
+    
+    <div class="grid-container"> 
+        <div class="section">
+            <h2 >Chores for Today (Assigned to You)</h2>
+            <ul id="my-chores"></ul>
+        </div>
+
+        <div class="section">
+            <h2 >Chores Available to Claim</h2>
+            <ul id="claim-chores"></ul>
+        </div>
+
+        <div class="section">
+            <h2 >Points for the Last 7 Days</h2>
+            <svg id="daily-chart" width="400" height="200"></svg>
+        </div>
+
+        <div class="section">
+            <h2 >Points for the Last 4 Weeks</h2>
+            <svg id="weekly-chart" width="400" height="200"></svg>
+        </div>
+    </div>
+
+    <audio id="choreCompleteSound" preload="auto">
+      <source src="/static/audio/plop.mp3" type="audio/mpeg">
+      Your browser does not support the audio element.
+    </audio>
+    
+    <audio id="choreClaimSound" preload="auto">
+      <source src="/static/audio/yoink.mp3" type="audio/mpeg">
+      Your browser does not support the audio element.
+    </audio>
+    
+    
+    <script src="/static/script.js"></script>
+  </body>
+</html>

@@ -1,0 +1,12 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./app:/app/app  # Mount the app directory for development
+      - ./db:/app/db    # Mount the db directory to persist data
+    environment:
+      - DATABASE_URL=sqlite3:/app/db/chores.db # Or set other env vars for email, etc.

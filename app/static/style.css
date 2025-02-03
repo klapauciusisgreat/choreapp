@@ -1,0 +1,115 @@
+/* Import Lato font from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@100;900&display=swap');
+
+/* Basic styling */
+body {
+    font-family: 'Lato', sans-serif; /* Use Lato for the entire body */
+    font-weight: 400; /* Default to Lato Thin (100) */
+    background-color: #f8f8f8; 
+    padding: 20px;
+    font-size: 140%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Lato', sans-serif; /* Use Lato for headings as well */
+    font-weight: 900; /* Lato Black (900) for headings */
+}
+
+h1, h2 {
+    text-align: center;
+}
+
+h2 {
+    margin-top: 30px;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+li {
+    margin-bottom: 10px;
+}
+
+/* Grid container */
+.grid-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two columns of equal width */
+    grid-template-rows: auto auto; /* Two rows that adjust to content height */
+    gap: 20px; /* Spacing between grid items */
+}
+
+/* Section boxes */
+.section {
+    /*background-color: #fff;*/
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); /* Subtle shadow */
+}
+
+/* Pastel colors for sections */
+.section:nth-of-type(1) { /* Chores for Today */
+    background-color: #FFB6C1; /*Light Pink */
+}
+
+.section:nth-of-type(2) { /* Chores Available to Claim */
+    background-color: #90EE90; /* Light Green */
+}
+
+.section:nth-of-type(3) { /* Points for the Last 7 Days */
+    background-color: #ADD8E6; /* Light Blue */
+}
+
+.section:nth-of-type(4) { /* Points for the Last 4 Weeks */
+    background-color: #FFFFD0; /* Light Yellow */
+}
+
+/* Form elements */
+form {
+    display: inline-block; /* Make forms inline */
+}
+
+input[type="checkbox"] {
+    margin-right: 5px;
+}
+
+button {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 8px 16px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Logout button container */
+.logout-button {
+    position: absolute; /* Allow absolute positioning */
+    top: 20px;        /* Position from the top of the page */
+    right: 20px;      /* Position from the right of the page */
+}
+
+/* Logout button styling */
+.logout-button a {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+ul:empty {
+    display: none;
+}

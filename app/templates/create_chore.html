@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Chore</title>
+</head>
+<body>
+    <h1>Create Chore</h1>
+    <form method="POST">
+        <div>
+            <label for="name">Chore Name:</label>
+            <input type="text" name="name" id="name" required>
+        </div>
+        <div>
+            <label for="points">Points:</label>
+            <input type="number" name="points" id="points" required>
+        </div>
+        <div>
+            <label for="default_user_id">Default User:</label>
+            <select name="default_user_id" id="default_user_id">
+                {{/* Fetch and populate users as in assign_chore.html */}}
+                {{ range .Users }}
+                <option value="{{ .ID }}">{{ .Username }}</option>
+                {{ end }}
+            </select>
+        </div>
+        <button type="submit">Create Chore</button>
+    </form>
+</body>
+</html>
