@@ -9,6 +9,7 @@ import (
 	"math/rand"
         "net/http"
         "net/smtp"
+	"os"
         "time"
         "strconv"
 
@@ -80,8 +81,6 @@ func main() {
 	// Serve static files (CSS, JS, images, etc.)
 	fs := http.FileServer(http.Dir("./app/static"))
 	http.Handle("/static/", http.StripPrefix("/static/", fs))
-
-
         // HTTP Handlers
         http.HandleFunc("/", indexHandler)
         http.HandleFunc("/login", loginHandler)
@@ -101,9 +100,14 @@ func main() {
         go scheduleDailySummary(db)
         go scheduleWeeklySummary(db)
 
-        // Start the server
-        log.Println("Server starting on port 8080")
-        log.Fatal(http.ListenAndServe(":8080", nil))
+	// Start the HTTPS server
+	log.Println("Server starting on port 443")
+	log.Fatal(http.ListenAndServeTLS(":443",
+		"/app/certbot/config/live/"+os.Getenv("DUCKDNS_SUBDOMAIN")+
+			".duckdns.org/fullchain.pem",
+		"/app/certbot/config/live/"+os.Getenv("DUCKDNS_SUBDOMAIN")+
+			".duckdns.org/privkey.pem",
+		nil))
 }
 
 func indexHandler(w http.ResponseWriter, r *http.Request) {
@@ -128,42 +132,19 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
     }
 
     // Get daily points for the preceding week
-    dailyPoints := make(map[string]int)
-    for i := 0; i < 7; i++ {
-        date := time.Now().AddDate(0, 0, -i).Format("2006-01-02")
-        var points int
-        err := db.QueryRow(`
-            SELECT IFNULL(SUM(c.points), 0)
-            FROM daily_chores dc
-            JOIN chores c ON dc.chore_id = c.id
-            WHERE dc.user_id = ? AND dc.date = ? AND dc.completed = TRUE
-        `, user.ID, date).Scan(&points)
-        if err != nil {
-            http.Error(w, err.Error(), http.StatusInternalServerError)
-            return
-        }
-        dailyPoints[date] = points
+    dailyPoints, err := GetDailyPoints(db, user.ID, 7)
+    if err != nil {
+        http.Error(w, err.Error(), http.StatusInternalServerError)
+        return
     }
 
     // Get weekly points for the preceding 4 weeks
-    weeklyPoints := make(map[string]int)
-    for i := 0; i < 4; i++ {
-        startDate := time.Now().AddDate(0, 0, -i*7 - 6).Format("2006-01-02")
-        endDate := time.Now().AddDate(0, 0, -i*7).Format("2006-01-02")
-        var points int
-        err := db.QueryRow(`
-            SELECT IFNULL(SUM(c.points), 0)
-            FROM daily_chores dc
-            JOIN chores c ON dc.chore_id = c.id
-            WHERE dc.user_id = ? AND dc.date BETWEEN ? AND ? AND dc.completed = TRUE
-        `, user.ID, startDate, endDate).Scan(&points)
-        if err != nil {
-            http.Error(w, err.Error(), http.StatusInternalServerError)
-            return
-        }
-        weeklyPoints[fmt.Sprintf("Week %d", i+1)] = points
+    weeklyPoints, err := GetWeeklyPoints(db, user.ID, 4)
+    if err != nil {
+        http.Error(w, err.Error(), http.StatusInternalServerError)
+        return
     }
-
+	
     data := struct {
         User          *User
         DailyPoints   map[string]int
